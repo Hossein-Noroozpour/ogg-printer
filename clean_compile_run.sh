@@ -16,8 +16,8 @@ clean_objs() {
 clean_objs
 
 clang++ -c -std=c++14 ogg-file.cpp -o ogg-file.obj
-clang++ -std=c++14 main.cpp *.obj -lvorbisfile -o main
+clang++ -std=c++14 main.cpp *.obj -lvorbisfile -o main.exe
 
 clean_objs
 
-./main
+./main.exe
