@@ -9,7 +9,7 @@ size_t gearoenix::frag::audio::OggFile::read_cb(void *ptr, size_t size, size_t n
 	return static_cast<size_t>(f->file.gcount());
 }
 
-int gearoenix::frag::audio::OggFile::seek_cb(void *datasource, ogg_int64_t offset, int whence)
+int gearoenix::frag::audio::OggFile::seek_cb(void *datasource, std::int64_t offset, int whence)
 {
 	OggFile *f = reinterpret_cast<OggFile *>(datasource);
 	switch (whence)
@@ -47,10 +47,11 @@ gearoenix::frag::audio::OggFile::OggFile(const std::string &file_name)
 	static ov_callbacks ovcs =
 	{
 		(size_t (*)(void *, size_t, size_t, void *))read_cb,
-		(int (*)(void *, ogg_int64_t, int))seek_cb,
-		(int (*)(void *))close_cb,
-		(long (*)(void *))tell_cb,
+		(int (*)(void *, ogg_int64_t, int))         seek_cb,
+		(int (*)(void *))                           close_cb,
+		(long (*)(void *))                          tell_cb,
 	};
+	oggvf = new OggVorbis_File;
 	file.open(file_name, std::ios_base::binary | std::ios_base::in);
 	if( 0 > ov_open_callbacks(this, oggvf, NULL, 0, ovcs))
 	{
